@@ -9,7 +9,7 @@ class NeverEndingCommand extends \Symfony\Bundle\FrameworkBundle\Command\Contain
 {
     protected function configure()
     {
-        $this->setName('effiana-job-queue:never-ending');
+        $this->setName('effiana:job-queue:never-ending');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

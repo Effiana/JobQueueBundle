@@ -39,7 +39,7 @@ class CronTest extends BaseTestCase
 
     private function doRun(array $args = array())
     {
-        array_unshift($args, 'effiana-job-queue:schedule');
+        array_unshift($args, 'effiana:job-queue:schedule');
         $output = new MemoryOutput();
         $this->app->run(new ArrayInput($args), $output);
 

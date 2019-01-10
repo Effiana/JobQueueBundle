@@ -101,7 +101,7 @@ any action from this bundle.
 
 Setting Up supervisord
 ======================
-For this bundle to work, make sure that you run at least one instance of the console command ``effiana-job-queue:run``
+For this bundle to work, make sure that you run at least one instance of the console command ``effiana:job-queue:run``
 (you can run as many as needed to process your events or guarantee high availability).
 
 Below, is a sample configuration that you can use with supervisord:
@@ -109,7 +109,7 @@ Below, is a sample configuration that you can use with supervisord:
 .. code-block :: ini
 
     [program:effiana_job_queue_runner]
-    command=php %kernel.root_dir%/console effiana-job-queue:run --env=prod --verbose
+    command=php %kernel.root_dir%/console effiana:job-queue:run --env=prod --verbose
     process_name=%(program_name)s
     numprocs=1
     directory=/tmp

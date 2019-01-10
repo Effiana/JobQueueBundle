@@ -27,7 +27,7 @@ class ConcurrencyTest extends BaseTestCase
         /** @var Job[] $jobs */
         $jobs = array();
         for ($i=0; $i<5; $i++) {
-            $jobs[] = $job = new Job('effiana-job-queue:logging-cmd', array('Job-'.$i, $filename, '--runtime=1'));
+            $jobs[] = $job = new Job('effiana:job-queue:logging-cmd', array('Job-'.$i, $filename, '--runtime=1'));
             $em->persist($job);
         }
         $em->flush();
@@ -116,7 +116,7 @@ CONFIG
 
     private function startWorker($name)
     {
-        $proc = new Process('exec '.PHP_BINARY.' '.escapeshellarg(__DIR__ . '/console').' effiana-job-queue:run --worker-name='.$name, null, array(
+        $proc = new Process('exec '.PHP_BINARY.' '.escapeshellarg(__DIR__ . '/console').' effiana:job-queue:run --worker-name='.$name, null, array(
             'SYMFONY_CONFIG' => $this->configFile,
         ));
         $proc->start();

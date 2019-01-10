@@ -10,7 +10,7 @@ class SuccessfulCommand extends \Symfony\Bundle\FrameworkBundle\Command\Containe
     protected function configure()
     {
         $this
-            ->setName('effiana-job-queue:successful-cmd')
+            ->setName('effiana:job-queue:successful-cmd')
         ;
     }
 

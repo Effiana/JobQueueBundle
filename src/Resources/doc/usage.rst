@@ -89,7 +89,7 @@ bundle's configuration:
                 max_concurrent_jobs: 2 # This limit applies only to the "foo" queue.
 
 .. note ::
-    Queue settings apply for each instance of the ``effiana-job-queue:run`` command separately. There is
+    Queue settings apply for each instance of the ``effiana:job-queue:run`` command separately. There is
     no way to specify a global limit for all instances.
 
 Prioritizing Jobs

@@ -13,7 +13,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class MarkJobIncompleteCommand extends ContainerAwareCommand
 {
-    protected static $defaultName = 'effiana-job-queue:mark-incomplete';
+    protected static $defaultName = 'effiana:job-queue:mark-incomplete';
 
     private $registry;
     private $jobManager;

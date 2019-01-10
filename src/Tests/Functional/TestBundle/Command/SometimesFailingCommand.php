@@ -11,7 +11,7 @@ class SometimesFailingCommand extends \Symfony\Bundle\FrameworkBundle\Command\Co
     protected function configure()
     {
         $this
-            ->setName('effiana-job-queue:sometimes-failing-cmd')
+            ->setName('effiana:job-queue:sometimes-failing-cmd')
             ->addArgument('time', InputArgument::REQUIRED)
         ;
     }

@@ -34,7 +34,7 @@ use Symfony\Component\Process\Process;
 
 class RunCommand extends \Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand
 {
-    protected static $defaultName = 'effiana-job-queue:run';
+    protected static $defaultName = 'effiana:job-queue:run';
 
     /** @var string */
     private $env;
@@ -396,7 +396,7 @@ class RunCommand extends \Symfony\Bundle\FrameworkBundle\Command\ContainerAwareC
             }
 
             $args = $this->getBasicCommandLineArgs();
-            $args[] = 'effiana-job-queue:mark-incomplete';
+            $args[] = 'effiana:job-queue:mark-incomplete';
             $args[] = $job->getId();
 
             // We use a separate process to clean up.

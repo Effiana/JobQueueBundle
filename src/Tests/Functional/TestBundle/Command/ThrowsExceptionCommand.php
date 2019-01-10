@@ -10,7 +10,7 @@ class ThrowsExceptionCommand extends ContainerAwareCommand
 {
     protected function configure()
     {
-        $this->setName('effiana-job-queue:throws-exception-cmd');
+        $this->setName('effiana:job-queue:throws-exception-cmd');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

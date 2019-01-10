@@ -1,13 +1,13 @@
-JMSJobQueueBundle [![Build Status](https://secure.travis-ci.org/schmittjoh/JMSJobQueueBundle.png?branch=master)](http://travis-ci.org/schmittjoh/JMSJobQueueBundle)
+JobQueueBundle
 =================
 
 Documentation: 
-[Resources/doc](http://jmsyst.com/bundles/JMSJobQueueBundle)
+[Resources/doc](https://github.com/Effiana/JobQueueBundle/blob/master/src/Resources/doc)
     
 
 Code License:
-[Resources/meta/LICENSE](https://github.com/schmittjoh/JMSJobQueueBundle/blob/master/Resources/meta/LICENSE)
+[Resources/meta/LICENSE](https://github.com/Effiana/JobQueueBundle/blob/master/src/Resources/meta/LICENSE)
 
 
 Documentation License:
-[Resources/doc/LICENSE](https://github.com/schmittjoh/JMSJobQueueBundle/blob/master/Resources/doc/LICENSE)
+[Resources/doc/LICENSE](https://github.com/Effiana/JobQueueBundle/blob/master/src/Resources/doc/LICENSE)

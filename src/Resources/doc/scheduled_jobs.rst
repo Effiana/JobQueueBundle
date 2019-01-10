@@ -5,7 +5,7 @@ This bundle also allows you to have scheduled jobs which are executed in certain
 by implementing ``Effiana\JobQueueBundle\Command\CronCommand`` in your command, or implementing ``Effiana\JobQueueBundle\Cron\JobScheduler``
 in a service and tagging the service with ``effiana_job_queue.scheduler``.
 
-The jobs are then scheduled with the ``effiana-job-queue:schedule`` command that is run as an additional background process.
+The jobs are then scheduled with the ``effiana:job-queue:schedule`` command that is run as an additional background process.
 You can also run multiple instances of this command to ensure high availability and avoid a single point of failure.
 
 Implement CronCommand

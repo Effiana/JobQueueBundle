@@ -43,7 +43,7 @@ class RunCommandTest extends BaseTestCase
 
     public function testSuccessfulCommand()
     {
-        $job = new Job('effiana-job-queue:successful-cmd');
+        $job = new Job('effiana:job-queue:successful-cmd');
         $this->em->persist($job);
         $this->em->flush($job);
 
@@ -58,7 +58,7 @@ class RunCommandTest extends BaseTestCase
     {
         $outputFile = tempnam(sys_get_temp_dir(), 'job-output');
         for ($i=0; $i<4; $i++) {
-            $job = new Job('effiana-job-queue:logging-cmd', array('Job'.$i, $outputFile, '--runtime=1'));
+            $job = new Job('effiana:job-queue:logging-cmd', array('Job'.$i, $outputFile, '--runtime=1'));
             $this->em->persist($job);
         }
 
@@ -92,7 +92,7 @@ OUTPUT
     {
         $outputFile = tempnam(sys_get_temp_dir(), 'job-output');
         for ($i=0; $i<3; $i++) {
-            $job = new Job('effiana-job-queue:logging-cmd', array('Job'.$i, $outputFile, '--runtime=4'), true, 'foo');
+            $job = new Job('effiana:job-queue:logging-cmd', array('Job'.$i, $outputFile, '--runtime=4'), true, 'foo');
             $this->em->persist($job);
         }
         $this->em->flush();
@@ -101,17 +101,17 @@ OUTPUT
         unlink($outputFile);
 
         $this->assertStringStartsWith(<<<OUTPUT
-Started Job(id = 1, command = "effiana-job-queue:logging-cmd").
-Started Job(id = 2, command = "effiana-job-queue:logging-cmd").
+Started Job(id = 1, command = "effiana:job-queue:logging-cmd").
+Started Job(id = 2, command = "effiana:job-queue:logging-cmd").
 OUTPUT
             ,
             $output
         );
 
         $this->assertStringStartsNotWith(<<<OUTPUT
-Started Job(id = 1, command = "effiana-job-queue:logging-cmd").
-Started Job(id = 2, command = "effiana-job-queue:logging-cmd").
-Started Job(id = 3, command = "effiana-job-queue:logging-cmd").
+Started Job(id = 1, command = "effiana:job-queue:logging-cmd").
+Started Job(id = 2, command = "effiana:job-queue:logging-cmd").
+Started Job(id = 3, command = "effiana:job-queue:logging-cmd").
 OUTPUT
             ,
             $output
@@ -123,9 +123,9 @@ OUTPUT
      */
     public function testSingleRestrictedQueue()
     {
-        $a = new Job('effiana-job-queue:successful-cmd');
-        $b = new Job('effiana-job-queue:successful-cmd', array(), true, 'other_queue');
-        $c = new Job('effiana-job-queue:successful-cmd', array(), true, 'yet_another_queue');
+        $a = new Job('effiana:job-queue:successful-cmd');
+        $b = new Job('effiana:job-queue:successful-cmd', array(), true, 'other_queue');
+        $c = new Job('effiana:job-queue:successful-cmd', array(), true, 'yet_another_queue');
         $this->em->persist($a);
         $this->em->persist($b);
         $this->em->persist($c);
@@ -142,9 +142,9 @@ OUTPUT
      */
     public function testMultipleRestrictedQueues()
     {
-        $a = new Job('effiana-job-queue:successful-cmd');
-        $b = new Job('effiana-job-queue:successful-cmd', array(), true, 'other_queue');
-        $c = new Job('effiana-job-queue:successful-cmd', array(), true, 'yet_another_queue');
+        $a = new Job('effiana:job-queue:successful-cmd');
+        $b = new Job('effiana:job-queue:successful-cmd', array(), true, 'other_queue');
+        $c = new Job('effiana:job-queue:successful-cmd', array(), true, 'yet_another_queue');
         $this->em->persist($a);
         $this->em->persist($b);
         $this->em->persist($c);
@@ -161,9 +161,9 @@ OUTPUT
      */
     public function testNoRestrictedQueue()
     {
-        $a = new Job('effiana-job-queue:successful-cmd');
-        $b = new Job('effiana-job-queue:successful-cmd', array(), true, 'other_queue');
-        $c = new Job('effiana-job-queue:successful-cmd', array(), true, 'yet_another_queue');
+        $a = new Job('effiana:job-queue:successful-cmd');
+        $b = new Job('effiana:job-queue:successful-cmd', array(), true, 'other_queue');
+        $c = new Job('effiana:job-queue:successful-cmd', array(), true, 'yet_another_queue');
         $this->em->persist($a);
         $this->em->persist($b);
         $this->em->persist($c);
@@ -180,7 +180,7 @@ OUTPUT
      */
     public function testRetry()
     {
-        $job = new Job('effiana-job-queue:sometimes-failing-cmd', array(time()));
+        $job = new Job('effiana:job-queue:sometimes-failing-cmd', array(time()));
         $job->setMaxRetries(5);
         $this->em->persist($job);
         $this->em->flush($job);
@@ -194,7 +194,7 @@ OUTPUT
 
     public function testJobIsTerminatedIfMaxRuntimeIsExceeded()
     {
-        $job = new Job('effiana-job-queue:never-ending');
+        $job = new Job('effiana:job-queue:never-ending');
         $job->setMaxRuntime(1);
         $this->em->persist($job);
         $this->em->flush($job);
@@ -208,20 +208,20 @@ OUTPUT
      */
     public function testJobsWithHigherPriorityAreStartedFirst()
     {
-        $job = new Job('effiana-job-queue:successful-cmd');
+        $job = new Job('effiana:job-queue:successful-cmd');
         $this->em->persist($job);
 
-        $job = new Job('effiana-job-queue:successful-cmd', array(), true, Job::DEFAULT_QUEUE, Job::PRIORITY_HIGH);
+        $job = new Job('effiana:job-queue:successful-cmd', array(), true, Job::DEFAULT_QUEUE, Job::PRIORITY_HIGH);
         $this->em->persist($job);
         $this->em->flush();
 
         $output = $this->runConsoleCommand(array('--max-runtime' => 4, '--worker-name' => 'test'));
 
         $this->assertEquals(<<<OUTPUT
-Started Job(id = 2, command = "effiana-job-queue:successful-cmd").
-Job(id = 2, command = "effiana-job-queue:successful-cmd") finished with exit code 0.
-Started Job(id = 1, command = "effiana-job-queue:successful-cmd").
-Job(id = 1, command = "effiana-job-queue:successful-cmd") finished with exit code 0.
+Started Job(id = 2, command = "effiana:job-queue:successful-cmd").
+Job(id = 2, command = "effiana:job-queue:successful-cmd") finished with exit code 0.
+Started Job(id = 1, command = "effiana:job-queue:successful-cmd").
+Job(id = 1, command = "effiana:job-queue:successful-cmd") finished with exit code 0.
 
 OUTPUT
             ,
@@ -234,20 +234,20 @@ OUTPUT
      */
     public function testJobsAreStartedInCreationOrderWhenPriorityIsEqual()
     {
-        $job = new Job('effiana-job-queue:successful-cmd', array(), true, Job::DEFAULT_QUEUE, Job::PRIORITY_HIGH);
+        $job = new Job('effiana:job-queue:successful-cmd', array(), true, Job::DEFAULT_QUEUE, Job::PRIORITY_HIGH);
         $this->em->persist($job);
 
-        $job = new Job('effiana-job-queue:successful-cmd', array(), true, Job::DEFAULT_QUEUE, Job::PRIORITY_HIGH);
+        $job = new Job('effiana:job-queue:successful-cmd', array(), true, Job::DEFAULT_QUEUE, Job::PRIORITY_HIGH);
         $this->em->persist($job);
         $this->em->flush();
 
         $output = $this->runConsoleCommand(array('--max-runtime' => 4, '--worker-name' => 'test'));
 
         $this->assertEquals(<<<OUTPUT
-Started Job(id = 1, command = "effiana-job-queue:successful-cmd").
-Job(id = 1, command = "effiana-job-queue:successful-cmd") finished with exit code 0.
-Started Job(id = 2, command = "effiana-job-queue:successful-cmd").
-Job(id = 2, command = "effiana-job-queue:successful-cmd") finished with exit code 0.
+Started Job(id = 1, command = "effiana:job-queue:successful-cmd").
+Job(id = 1, command = "effiana:job-queue:successful-cmd") finished with exit code 0.
+Started Job(id = 2, command = "effiana:job-queue:successful-cmd").
+Job(id = 2, command = "effiana:job-queue:successful-cmd") finished with exit code 0.
 
 OUTPUT
             ,
@@ -261,7 +261,7 @@ OUTPUT
      */
     public function testExceptionStackTraceIsSaved()
     {
-        $job = new Job('effiana-job-queue:throws-exception-cmd');
+        $job = new Job('effiana:job-queue:throws-exception-cmd');
         $this->em->persist($job);
         $this->em->flush($job);
 
@@ -295,7 +295,7 @@ OUTPUT
 
     private function runConsoleCommand(array $args = array())
     {
-        array_unshift($args, 'effiana-job-queue:run');
+        array_unshift($args, 'effiana:job-queue:run');
         $output = new MemoryOutput();
 
         $_SERVER['SYMFONY_CONSOLE_FILE'] = __DIR__ . '/console';

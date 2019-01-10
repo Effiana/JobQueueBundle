@@ -17,7 +17,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class ScheduleCommand extends Command
 {
-    protected static $defaultName = 'effiana-job-queue:schedule';
+    protected static $defaultName = 'effiana:job-queue:schedule';
 
     private $registry;
     private $schedulers;

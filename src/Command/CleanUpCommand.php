@@ -14,7 +14,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CleanUpCommand extends ContainerAwareCommand
 {
-    protected static $defaultName = 'effiana-job-queue:clean-up';
+    protected static $defaultName = 'effiana:job-queue:clean-up';
 
     private $jobManager;
     private $registry;

@@ -13,7 +13,7 @@ class LoggingCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('effiana-job-queue:logging-cmd')
+            ->setName('effiana:job-queue:logging-cmd')
             ->addArgument('name', InputArgument::REQUIRED, 'The name of this job.')
             ->addArgument('file', InputArgument::REQUIRED, 'The file to log to.')
             ->addOption('runtime', null, InputOption::VALUE_REQUIRED, 'The runtime of this command', 3)
