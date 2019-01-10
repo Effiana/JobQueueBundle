@@ -9,12 +9,12 @@
          processIsolation="false"
          stopOnFailure="false"
          syntaxCheck="false"
-         bootstrap="./Tests/bootstrap.php"
+         bootstrap="./src/Tests/bootstrap.php"
 >
 
     <testsuites>
-        <testsuite name="JMSJobQueueBundle Test Suite">
-            <directory>./Tests</directory>
+        <testsuite name="JobQueueBundle Test Suite">
+            <directory>./src/Tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>

@@ -1,0 +1,12 @@
+<?php
+
+require_once __DIR__.'/AppKernel.php';
+
+use Effiana\JobQueueBundle\Console\Application;
+use Effiana\JobQueueBundle\Tests\Functional\AppKernel;
+
+$kernel = new AppKernel(getenv('SYMFONY_CONFIG') ?: 'persistent_db.yml');
+$kernel->boot();
+
+$app = new Application($kernel);
+$app->run();
