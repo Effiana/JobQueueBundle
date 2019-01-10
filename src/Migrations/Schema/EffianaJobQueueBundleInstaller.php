@@ -17,6 +17,7 @@ use BrandOriented\DatabaseBundle\Migration\Column;
 use BrandOriented\DatabaseBundle\Migration\Installation;
 use BrandOriented\DatabaseBundle\Migration\QueryBag;
 use Doctrine\DBAL\Schema\Schema;
+use Effiana\JobQueueBundle\Entity\Job;
 
 /**
  * Class EffianaJobQueueBundleInstaller
@@ -69,7 +70,10 @@ class EffianaJobQueueBundleInstaller implements Installation
         /** Generate table effiana_job **/
         $table = $schema->createTable('effiana_job');
         $table->addColumn('id', 'bigint', ['unsigned' => true, 'autoincrement' => true]);
+        $table->addColumn('queue', 'string', ['length' => Job::MAX_QUEUE_LENGTH]);
         $table->addColumn('state', 'string', ['length' => 255]);
+        $table->addColumn('workerName', 'string', ['length' => 50, 'notnull' => false]);
+        $table->addColumn('priority', 'smallint', ['default' => 0]);
         $table->addColumn('createdAt', 'datetime', []);
         $table->addColumn('startedAt', 'datetime', ['notnull' => false]);
         $table->addColumn('checkedAt', 'datetime', ['notnull' => false]);
