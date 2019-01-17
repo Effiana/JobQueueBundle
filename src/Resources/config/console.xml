@@ -29,5 +29,9 @@
             <argument type="tagged" tag="effiana_job_queue.scheduler" />
             <argument type="tagged" tag="effiana_job_queue.cron_command" />
         </service>
+
+        <service id="effiana_job_queue.command" class="Effiana\JobQueueBundle\EventListener\JobCommandListener">
+            <tag name="kernel.event_listener" event="console.command" method="onConsoleCommand" />
+        </service>
     </services>
 </container>
