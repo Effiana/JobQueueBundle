@@ -13,11 +13,11 @@
 
 namespace Effiana\WorkflowBundle\Migrations\Schema;
 
-use BrandOriented\DatabaseBundle\Migration\Column;
-use BrandOriented\DatabaseBundle\Migration\Installation;
-use BrandOriented\DatabaseBundle\Migration\QueryBag;
 use Doctrine\DBAL\Schema\Schema;
 use Effiana\JobQueueBundle\Entity\Job;
+use Effiana\MigrationBundle\Migration\Column;
+use Effiana\MigrationBundle\Migration\Installation;
+use Effiana\MigrationBundle\Migration\QueryBag;
 
 /**
  * Class EffianaJobQueueBundleInstaller
@@ -39,6 +39,9 @@ class EffianaJobQueueBundleInstaller implements Installation
      */
     public function up(Schema $schema, QueryBag $queries)
     {
+        if($schema->hasTable('effiana_job')) {
+            return;
+        }
         // @codingStandardsIgnoreStart
         /** Generate table effiana_job_dependencies **/
         $table = $schema->createTable('effiana_job_dependencies');
