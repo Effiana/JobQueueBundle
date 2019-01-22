@@ -18,7 +18,8 @@
         "php": "^7.2",
         "symfony/symfony": "4.*",
         "doctrine/common": "^2.3",
-        "symfony/process": "^3.4 || ^4.0"
+        "symfony/process": "^3.4 || ^4.0",
+        "effiana/migration-bundle": "dev-master"
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "*",
@@ -33,7 +34,6 @@
         "symfony/twig-bundle": "*",
         "symfony/form": "*",
         "symfony/validator": "*",
-        "phpunit/phpunit": "^6.0",
         "symfony/intl": "*"
     },
     "autoload": {
