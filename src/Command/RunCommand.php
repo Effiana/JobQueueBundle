@@ -264,13 +264,13 @@ class RunCommand extends \Symfony\Bundle\FrameworkBundle\Command\ContainerAwareC
 
             if ( ! empty($newOutput)) {
                 $event = new NewOutputEvent($data['job'], $newOutput, NewOutputEvent::TYPE_STDOUT);
-                $this->dispatcher->dispatch('effiana_job_queue.new_job_output', $event);
+                $this->dispatcher->dispatch($event, 'effiana_job_queue.new_job_output');
                 $newOutput = $event->getNewOutput();
             }
 
             if ( ! empty($newErrorOutput)) {
                 $event = new NewOutputEvent($data['job'], $newErrorOutput, NewOutputEvent::TYPE_STDERR);
-                $this->dispatcher->dispatch('effiana_job_queue.new_job_output', $event);
+                $this->dispatcher->dispatch($event, 'effiana_job_queue.new_job_output');
                 $newErrorOutput = $event->getNewOutput();
             }
 
@@ -331,7 +331,7 @@ class RunCommand extends \Symfony\Bundle\FrameworkBundle\Command\ContainerAwareC
     private function startJob(Job $job)
     {
         $event = new StateChangeEvent($job, Job::STATE_RUNNING);
-        $this->dispatcher->dispatch('effiana_job_queue.job_state_change', $event);
+        $this->dispatcher->dispatch($event, 'effiana_job_queue.job_state_change');
         $newState = $event->getNewState();
 
         if (Job::STATE_CANCELED === $newState) {
