@@ -32,10 +32,10 @@ class Configuration implements ConfigurationInterface
     /**
      * {@inheritDoc}
      */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
-        $treeBuilder = new TreeBuilder();
-        $rootNode = $treeBuilder->root('effiana_job_queue');
+        $treeBuilder = new TreeBuilder('effiana_job_queue');
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()
@@ -57,7 +57,10 @@ class Configuration implements ConfigurationInterface
         return $treeBuilder;
     }
 
-    private function addQueueOptions(ArrayNodeDefinition $def)
+    /**
+     * @param ArrayNodeDefinition $def
+     */
+    private function addQueueOptions(ArrayNodeDefinition $def): void
     {
         $def
             ->children()
