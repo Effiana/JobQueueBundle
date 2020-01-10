@@ -1,6 +1,7 @@
 <?php
 
 namespace Effiana\JobQueueBundle\Entity\Listener;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Effiana\JobQueueBundle\Entity\Job;
 
@@ -19,7 +20,7 @@ class ManyToAnyListener
     private $registry;
     private $ref;
 
-    public function __construct(\Symfony\Bridge\Doctrine\RegistryInterface $registry)
+    public function __construct(Registry $registry)
     {
         $this->registry = $registry;
         $this->ref = new \ReflectionProperty('Effiana\JobQueueBundle\Entity\Job', 'relatedEntities');
