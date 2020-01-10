@@ -7,12 +7,12 @@ use Doctrine\DBAL\Connection;
 use Doctrine\ORM\EntityManager;
 use Effiana\JobQueueBundle\Entity\Job;
 use Effiana\JobQueueBundle\Entity\Repository\JobManager;
-use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CleanUpCommand extends ContainerAwareCommand
+class CleanUpCommand extends Command
 {
     protected static $defaultName = 'effiana:job-queue:clean-up';
 

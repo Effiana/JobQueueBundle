@@ -32,7 +32,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-class RunCommand extends \Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand
+class RunCommand extends \Symfony\Component\Console\Command\Command
 {
     protected static $defaultName = 'effiana:job-queue:run';
 
@@ -110,8 +110,8 @@ class RunCommand extends \Symfony\Bundle\FrameworkBundle\Command\ContainerAwareC
         $this->env = $input->getOption('env');
         $this->verbose = $input->getOption('verbose');
         $this->output = $output;
-        $this->registry = $this->getContainer()->get('doctrine');
-        $this->dispatcher = $this->getContainer()->get('event_dispatcher');
+        $this->registry = $this->getApplication()->getKernel()->getContainer()->get('doctrine');
+        $this->dispatcher = $this->getApplication()->getKernel()->getContainer()->get('event_dispatcher');
         $this->getEntityManager()->getConnection()->getConfiguration()->setSQLLogger(null);
 
         if ($this->verbose) {
@@ -127,8 +127,8 @@ class RunCommand extends \Symfony\Bundle\FrameworkBundle\Command\ContainerAwareC
             $idleTime,
             $maxJobs,
             $restrictedQueues,
-            $this->getContainer()->getParameter('effiana_job_queue.queue_options_defaults'),
-            $this->getContainer()->getParameter('effiana_job_queue.queue_options')
+            $this->getApplication()->getKernel()->getContainer()->getParameter('effiana_job_queue.queue_options_defaults'),
+            $this->getApplication()->getKernel()->getContainer()->getParameter('effiana_job_queue.queue_options')
         );
     }
 
@@ -434,6 +434,6 @@ class RunCommand extends \Symfony\Bundle\FrameworkBundle\Command\ContainerAwareC
      */
     private function getJobManager()
     {
-        return $this->getContainer()->get('effiana_job_queue.job_manager');
+        return $this->getApplication()->getKernel()->getContainer()->get('effiana_job_queue.job_manager');
     }
 }
