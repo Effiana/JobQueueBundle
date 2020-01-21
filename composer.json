@@ -15,11 +15,12 @@
         }
     ],
     "require": {
-        "php": "^7.2",
+        "php": "^7.2 | ^7.4",
         "symfony/framework-bundle": "^4.2 | ^5.0",
         "doctrine/common": "^2.3",
         "symfony/process": "^4.2 | ^5.0",
-        "effiana/migration-bundle": "dev-master"
+        "effiana/migration-bundle": "dev-master",
+        "twig/twig": "^3.0"
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
