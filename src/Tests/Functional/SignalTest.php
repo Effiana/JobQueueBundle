@@ -13,7 +13,7 @@ class SignalTest extends TestCase
             $this->markTestSkipped('PCNTL extension is not loaded.');
         }
 
-        $proc = new Process('exec '.PHP_BINARY.' '.escapeshellarg(__DIR__ . '/console').' effiana:job-queue:run --worker-name=test --verbose --max-runtime=999999');
+        $proc = new Process(['exec '.PHP_BINARY.' '.escapeshellarg(__DIR__ . '/console').' effiana:job-queue:run --worker-name=test --verbose --max-runtime=999999']);
         $proc->start();
 
         usleep(5E5);
