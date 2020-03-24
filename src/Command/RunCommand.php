@@ -73,7 +73,7 @@ class RunCommand extends Command
         ;
     }
 
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $startTime = time();
 
@@ -134,6 +134,8 @@ class RunCommand extends Command
             $this->getApplication()->getKernel()->getContainer()->getParameter('effiana_job_queue.queue_options_defaults'),
             $this->getApplication()->getKernel()->getContainer()->getParameter('effiana_job_queue.queue_options')
         );
+
+        return 0;
     }
 
     private function runJobs($workerName, $startTime, $maxRuntime, $idleTime, $maxJobs, array $restrictedQueues, array $queueOptionsDefaults, array $queueOptions)

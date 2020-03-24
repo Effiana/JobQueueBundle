@@ -79,4 +79,19 @@ class AppKernel extends Kernel
     {
         $this->__construct($config);
     }
+
+    protected function getKernelParameters(): array
+    {
+        //get the original params
+        $parameters = parent::getKernelParameters();
+        $webDir = sprintf('%s/web', realpath($this->getProjectDir()) ?: $this->getProjectDir());
+        //and merge it with ours.
+        return array_merge(
+            [
+                'kernel.root_dir' => $this->getProjectDir(),
+                'kernel.web_dir' => $webDir,
+            ],
+            $parameters
+        );
+    }
 }
