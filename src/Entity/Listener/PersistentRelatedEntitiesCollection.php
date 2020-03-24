@@ -4,6 +4,7 @@ namespace Effiana\JobQueueBundle\Entity\Listener;
 
 use ArrayIterator;
 use Closure;
+use Doctrine\Bundle\DoctrineBundle\Registry;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
@@ -25,7 +26,7 @@ class PersistentRelatedEntitiesCollection implements Collection, Selectable
     private $job;
     private $entities;
 
-    public function __construct(RegistryInterface $registry, Job $job)
+    public function __construct(Registry $registry, Job $job)
     {
         $this->registry = $registry;
         $this->job = $job;

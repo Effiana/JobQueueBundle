@@ -18,13 +18,17 @@
 
 namespace Effiana\JobQueueBundle\Command;
 
+use DateTime;
 use Doctrine\ORM\EntityManager;
 use Effiana\JobQueueBundle\Entity\Job;
 use Effiana\JobQueueBundle\Entity\Repository\JobManager;
 use Effiana\JobQueueBundle\Event\NewOutputEvent;
 use Effiana\JobQueueBundle\Event\StateChangeEvent;
 use Effiana\JobQueueBundle\Exception\InvalidArgumentException;
+use LogicException;
+use RuntimeException;
 use Symfony\Bridge\Doctrine\ManagerRegistry;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -32,7 +36,7 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
 
-class RunCommand extends \Symfony\Component\Console\Command\Command
+class RunCommand extends Command
 {
     protected static $defaultName = 'effiana:job-queue:run';
 
@@ -100,7 +104,7 @@ class RunCommand extends \Symfony\Component\Console\Command\Command
         }
 
         if (strlen($workerName) > 50) {
-            throw new \RuntimeException(sprintf(
+            throw new RuntimeException(sprintf(
                 '"worker-name" must not be longer than 50 chars, but got "%s" (%d chars).',
                 $workerName,
                 strlen($workerName)
@@ -262,31 +266,35 @@ class RunCommand extends \Symfony\Component\Console\Command\Command
             $newErrorOutput = substr($data['process']->getErrorOutput(), $data['error_output_pointer']);
             $data['error_output_pointer'] += strlen($newErrorOutput);
 
-            if ( ! empty($newOutput)) {
+            if (!empty($newOutput)) {
                 $event = new NewOutputEvent($data['job'], $newOutput, NewOutputEvent::TYPE_STDOUT);
                 $this->dispatcher->dispatch($event, 'effiana_job_queue.new_job_output');
                 $newOutput = $event->getNewOutput();
             }
 
-            if ( ! empty($newErrorOutput)) {
+            if (!empty($newErrorOutput)) {
                 $event = new NewOutputEvent($data['job'], $newErrorOutput, NewOutputEvent::TYPE_STDERR);
                 $this->dispatcher->dispatch($event, 'effiana_job_queue.new_job_output');
                 $newErrorOutput = $event->getNewOutput();
             }
 
             if ($this->verbose) {
-                if ( ! empty($newOutput)) {
-                    $this->output->writeln('Job '.$data['job']->getId().': '.str_replace("\n", "\nJob ".$data['job']->getId().": ", $newOutput));
+                if (!empty($newOutput)) {
+                    $this->output->writeln('Job ' . $data['job']->getId() . ': ' . str_replace("\n", "\nJob " . $data['job']->getId() . ": ", $newOutput));
                 }
 
-                if ( ! empty($newErrorOutput)) {
-                    $this->output->writeln('Job '.$data['job']->getId().': '.str_replace("\n", "\nJob ".$data['job']->getId().": ", $newErrorOutput));
+                if (!empty($newErrorOutput)) {
+                    $this->output->writeln('Job ' . $data['job']->getId() . ': ' . str_replace("\n", "\nJob " . $data['job']->getId() . ": ", $newErrorOutput));
                 }
             }
 
             // Check whether this process exceeds the maximum runtime, and terminate if that is
             // the case.
-            $runtime = time() - $data['job']->getStartedAt()->getTimestamp();
+            if ($data['job']->getStartedAt() === null) {
+                $runtime = (new DateTime())->getTimestamp();
+            } else {
+                $runtime = time() - $data['job']->getStartedAt()->getTimestamp();
+            }
             if ($data['job']->getMaxRuntime() > 0 && $runtime > $data['job']->getMaxRuntime()) {
                 $data['process']->stop(5);
 
@@ -341,7 +349,7 @@ class RunCommand extends \Symfony\Component\Console\Command\Command
         }
 
         if (Job::STATE_RUNNING !== $newState) {
-            throw new \LogicException(sprintf('Unsupported new state "%s".', $newState));
+            throw new LogicException(sprintf('Unsupported new state "%s".', $newState));
         }
 
         $job->setState(Job::STATE_RUNNING);

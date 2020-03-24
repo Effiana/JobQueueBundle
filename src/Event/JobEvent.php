@@ -19,7 +19,7 @@
 namespace Effiana\JobQueueBundle\Event;
 
 use Effiana\JobQueueBundle\Entity\Job;
-use Symfony\Component\EventDispatcher\Event;
+use Symfony\Contracts\EventDispatcher\Event;
 
 abstract class JobEvent extends Event
 {
