@@ -8,15 +8,17 @@ use Effiana\JobQueueBundle\Entity\Job;
 use Effiana\JobQueueBundle\Entity\Repository\JobManager;
 use Effiana\JobQueueBundle\View\JobFilter;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class JobController extends Controller
+class JobController extends AbstractController
 {
     /**
      * @Route("/", name = "effiana_job_overview")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function overviewAction(Request $request)
     {

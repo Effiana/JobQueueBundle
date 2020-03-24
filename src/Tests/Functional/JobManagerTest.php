@@ -176,10 +176,10 @@ class JobManagerTest extends BaseTestCase
 
         $this->dispatcher->expects($this->at(0))
             ->method('dispatch')
-            ->with('effiana_job_queue.job_state_change', new StateChangeEvent($a, 'terminated'));
+            ->with(new StateChangeEvent($a, 'terminated'),'effiana_job_queue.job_state_change');
         $this->dispatcher->expects($this->at(1))
             ->method('dispatch')
-            ->with('effiana_job_queue.job_state_change', new StateChangeEvent($b, 'canceled'));
+            ->with(new StateChangeEvent($b, 'canceled'), 'effiana_job_queue.job_state_change');
 
         $this->assertEquals('running', $a->getState());
         $this->assertEquals('pending', $b->getState());
@@ -201,11 +201,11 @@ class JobManagerTest extends BaseTestCase
 
         $this->dispatcher->expects($this->at(0))
             ->method('dispatch')
-            ->with('effiana_job_queue.job_state_change', new StateChangeEvent($a, 'canceled'));
+            ->with(new StateChangeEvent($a, 'canceled'), 'effiana_job_queue.job_state_change');
 
         $this->dispatcher->expects($this->at(1))
             ->method('dispatch')
-            ->with('effiana_job_queue.job_state_change', new StateChangeEvent($b, 'canceled'));
+            ->with(new StateChangeEvent($b, 'canceled'), 'effiana_job_queue.job_state_change');
 
         $this->jobManager->closeJob($a, 'canceled');
         $this->assertEquals('canceled', $a->getState());
@@ -224,13 +224,13 @@ class JobManagerTest extends BaseTestCase
 
         $this->dispatcher->expects($this->at(0))
             ->method('dispatch')
-            ->with('effiana_job_queue.job_state_change', new StateChangeEvent($a, 'failed'));
+            ->with(new StateChangeEvent($a, 'failed'), 'effiana_job_queue.job_state_change');
         $this->dispatcher->expects($this->at(1))
             ->method('dispatch')
-            ->with('effiana_job_queue.job_state_change', new LogicalNot($this->equalTo(new StateChangeEvent($a, 'failed'))));
+            ->with(new LogicalNot($this->equalTo(new StateChangeEvent($a, 'failed'))), 'effiana_job_queue.job_state_change');
         $this->dispatcher->expects($this->at(2))
             ->method('dispatch')
-            ->with('effiana_job_queue.job_state_change', new LogicalNot($this->equalTo(new StateChangeEvent($a, 'failed'))));
+            ->with(new LogicalNot($this->equalTo(new StateChangeEvent($a, 'failed'))), 'effiana_job_queue.job_state_change');
 
         $this->assertCount(0, $a->getRetryJobs());
         $this->jobManager->closeJob($a, 'failed');
